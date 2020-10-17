@@ -1,7 +1,6 @@
 #!/bin/sh -l
 
 echo "Starts"
-FOLDER="$1"
 TARGET_BRANCH="$6"
 
 if [ -z "$INPUT_USER_NAME" ]
@@ -34,7 +33,7 @@ ls -la "$CLONE_DIR"
 
 echo "Copying contents to to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER
-cp -r "$FOLDER"/* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
+cp -r "$INPUT_SOURCE_DIRECTORY"/* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
 cd "$CLONE_DIR"
 ls -la
 
