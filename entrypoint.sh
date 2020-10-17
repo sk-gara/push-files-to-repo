@@ -1,6 +1,9 @@
 #!/bin/sh -l
 
-echo "Starts"
+set -e
+set -x
+
+echo "Start"
 
 if [ -z "$INPUT_USER_NAME" ]
 then
@@ -10,7 +13,6 @@ if [ -z "$INPUT_USER_EMAIL" ]
 then
   INPUT_USER_EMAIL="$GITHUB_ACTOR@users.noreply.github.com"
 fi
-
 if [ -z "$INPUT_TARGET_BRANCH" ]
 then
   INPUT_TARGET_BRANCH="main"
