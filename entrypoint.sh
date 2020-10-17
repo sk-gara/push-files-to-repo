@@ -40,6 +40,8 @@ ls -la
 echo "Adding git commit"
 git add .
 git status
+echo $INPUT_USER_NAME
+echo git config --list
 git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 
 echo "Pushing git commit"
