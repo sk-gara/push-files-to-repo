@@ -1,7 +1,7 @@
 name: 'Push directory to another repository'
 description: 'Useful to push files to another repository to be used, for example, via github pages'
 inputs:
-  source_directory:
+  source_file_path:
     description: 'Source directory from the origin directory'
     required: true
   destination_repo:
