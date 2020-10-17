@@ -24,10 +24,10 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.source-directory }}
-    - ${{ inputs.destination-github-username }}
-    - ${{ inputs.destination-repository-name }}
+    - ""
+    - ""
     - ${{ inputs.user-email }}
-    - ${{ inputs.destination-repository-username }}
+    - ""
     - ${{ inputs.target-branch }}
 branding:
   icon: 'git-commit'
