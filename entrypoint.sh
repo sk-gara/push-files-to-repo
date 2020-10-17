@@ -24,6 +24,9 @@ fi
 
 CLONE_DIR=$(mktemp -d)
 
+echo "Clean up old references maybe"
+git remote prune origin
+
 echo "Cloning destination git repository"
 # Setup git
 git config --global user.email "$INPUT_AUTHOR_EMAIL"
