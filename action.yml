@@ -8,7 +8,7 @@ inputs:
     description: 'Destination repository to push to'
     required: true
   user_name:
-    description: '[Optional] Name of the source repo's user for the commit. Default is name on pushing account.'
+    description: "[Optional] Name of the source repo's user for the commit. Default is name on pushing account."
     required: false
   user_email:
     description: '[Optional] Email for the git commit. Default is user@no-reply...'
