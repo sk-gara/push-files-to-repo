@@ -1,5 +1,9 @@
 #!/bin/sh -l
 
+# Combination of:
+# - https://github.com/cpina/github-action-push-to-another-repository
+# - https://github.com/dmnemec/copy_file_to_another_repo_action
+
 set -e
 set -x
 
@@ -26,11 +30,6 @@ git config --global user.email "$INPUT_USER_EMAIL"
 git config --global user.name "$INPUT_USER_NAME"
 git clone --single-branch --branch "$INPUT_TARGET_BRANCH" "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 ls -la "$CLONE_DIR"
-
-#echo "Cleaning destination repository of old files"
-## Copy files into the git and deletes all git
-#find "$CLONE_DIR" | grep -v "^$CLONE_DIR/\.git" | grep -v "^$CLONE_DIR$" | xargs rm -rf # delete all files (to handle deletions)
-#ls -la "$CLONE_DIR"
 
 echo "Copying contents to to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER
