@@ -2,15 +2,19 @@
 
 echo "Starts"
 FOLDER="$1"
-GITHUB_USERNAME="$2"
+#GITHUB_USERNAME="$2"
 GITHUB_REPO="$3"
 USER_EMAIL="$4"
-REPO_USERNAME="$5"
+#REPO_USERNAME="$5"
 TARGET_BRANCH="$6"
 
-if [ -z "$REPO_USERNAME" ]
+#if [ -z "$REPO_USERNAME" ]
+#then
+#  REPO_USERNAME="$GITHUB_USERNAME"
+#fi
+if [ -z "$INPUT_USER_NAME" ]
 then
-  REPO_USERNAME="$GITHUB_USERNAME"
+  INPUT_USER_NAME=""
 fi
 if [ -z "$TARGET_BRANCH" ]
 then
@@ -22,7 +26,7 @@ CLONE_DIR=$(mktemp -d)
 echo "Cloning destination git repository"
 # Setup git
 git config --global user.email "$USER_EMAIL"
-git config --global user.name "$GITHUB_USERNAME"
+git config --global user.name "$INPUT_USER_NAME"
 git clone --single-branch --branch "$TARGET_BRANCH" "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 ls -la "$CLONE_DIR"
 
