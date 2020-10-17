@@ -9,13 +9,13 @@ set -x
 
 echo "Start"
 
-if [ -z "$INPUT_USER_NAME" ]
+if [ -z "$INPUT_AUTHOR" ]
 then
-  INPUT_USER_NAME="$GITHUB_ACTOR"
+  INPUT_AUTHOR="$GITHUB_ACTOR"
 fi
-if [ -z "$INPUT_USER_EMAIL" ]
+if [ -z "$INPUT_AUTHOR_EMAIL" ]
 then
-  INPUT_USER_EMAIL="$GITHUB_ACTOR@users.noreply.github.com"
+  INPUT_AUTHOR_EMAIL="$INPUT_AUTHOR@users.noreply.github.com"
 fi
 if [ -z "$INPUT_TARGET_BRANCH" ]
 then
@@ -26,8 +26,8 @@ CLONE_DIR=$(mktemp -d)
 
 echo "Cloning destination git repository"
 # Setup git
-git config --global user.email "$INPUT_USER_EMAIL"
-git config --global user.name "$INPUT_USER_NAME"
+git config --global user.email "$INPUT_AUTHOR_EMAIL"
+git config --global user.name "$INPUT_AUTHOR"
 git clone --single-branch --branch "$INPUT_TARGET_BRANCH" "https://$INPUT_TOKEN@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 ls -la "$CLONE_DIR"
 
@@ -40,8 +40,7 @@ ls -la
 echo "Adding git commit"
 git add .
 git status
-echo $INPUT_USER_NAME
-echo git config --list
+git config --list
 git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 
 echo "Pushing git commit"
