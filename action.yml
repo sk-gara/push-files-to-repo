@@ -4,18 +4,18 @@ inputs:
   source-directory:
     description: 'Source directory from the origin directory'
     required: true
-  destination-github-username:
-    description: 'Name of the destination username/organization'
+  destination_repo:
+    description: 'Destination repository to push to'
     required: true
-  destination-repository-name:
-    description: 'Destination repository'
-    required: true
-  user-email:
-    description: 'Email for the git commit'
-    required: true
-  destination-repository-username:
-    description: '[Optional] Username/organization for the destination repository'
+  user_name:
+    description: '[Optional] Name of the source repo's user for the commit. Default is name on pushing account.'
     required: false
+  user-email:
+    description: '[Optional] Email for the git commit. Default is user@no-reply...'
+    required: false
+  #destination-repository-username:
+  #  description: '[Optional] Username/organization for the destination repository'
+  #  required: false
   target-branch:
     description: '[Optional] set target branch name for the destination repository'
     required: false
@@ -26,7 +26,7 @@ runs:
     - ${{ inputs.source-directory }}
     - ""
     - ""
-    - ${{ inputs.user-email }}
+    - ""
     - ""
     - ${{ inputs.target-branch }}
 branding:
