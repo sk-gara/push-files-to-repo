@@ -1,7 +1,6 @@
 #!/bin/sh -l
 
 echo "Starts"
-TARGET_BRANCH="$6"
 
 if [ -z "$INPUT_USER_NAME" ]
 then
@@ -12,9 +11,9 @@ then
   INPUT_USER_EMAIL="$GITHUB_ACTOR@users.noreply.github.com"
 fi
 
-if [ -z "$TARGET_BRANCH" ]
+if [ -z "$INPUT_TARGET_BRANCH" ]
 then
-  TARGET_BRANCH="master"
+  INPUT_TARGET_BRANCH="main"
 fi
 
 CLONE_DIR=$(mktemp -d)
@@ -23,7 +22,7 @@ echo "Cloning destination git repository"
 # Setup git
 git config --global user.email "$INPUT_USER_EMAIL"
 git config --global user.name "$INPUT_USER_NAME"
-git clone --single-branch --branch "$TARGET_BRANCH" "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+git clone --single-branch --branch "$INPUT_TARGET_BRANCH" "https://$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 ls -la "$CLONE_DIR"
 
 #echo "Cleaning destination repository of old files"
@@ -43,4 +42,4 @@ git status
 git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 
 echo "Pushing git commit"
-git push origin "$TARGET_BRANCH"
+git push origin "$INPUT_TARGET_BRANCH"
