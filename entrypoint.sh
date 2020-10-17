@@ -2,19 +2,12 @@
 
 echo "Starts"
 FOLDER="$1"
-#GITHUB_USERNAME="$2"
-#GITHUB_REPO="$3"
 USER_EMAIL="$4"
-#REPO_USERNAME="$5"
 TARGET_BRANCH="$6"
 
-#if [ -z "$REPO_USERNAME" ]
-#then
-#  REPO_USERNAME="$GITHUB_USERNAME"
-#fi
 if [ -z "$INPUT_USER_NAME" ]
 then
-  INPUT_USER_NAME=""
+  INPUT_USER_NAME="$GITHUB_ACTOR"
 fi
 if [ -z "$TARGET_BRANCH" ]
 then
