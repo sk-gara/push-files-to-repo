@@ -2,13 +2,16 @@ name: 'Push directory to another repository'
 description: 'Useful to push files to another repository to be used, for example, via github pages'
 inputs:
   token:
-    description: 'Github token for this action'
+    description: 'Github token for this action (you have to create this in your settings).'
     required: true
   source_file_path:
-    description: 'Source directory from the origin directory'
+    description: '"Path" to generated file. Ex: path/to/file.md'
     required: true
   destination_repo:
-    description: 'Destination repository to push to'
+    description: 'Repository to push file to.'
+    required: true
+  destination_folder:
+    description: 'Folder to push to in destination repository.'
     required: true
   target_branch:
     description: '[Optional] set target branch name for the destination repository. Default is "main"'
@@ -19,19 +22,9 @@ inputs:
   user_email:
     description: '[Optional] Email for the git commit. Default is user@no-reply...'
     required: false
-  #destination-repository-username:
-  #  description: '[Optional] Username/organization for the destination repository'
-  #  required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ""
-    - ""
-    - ""
-    - ""
-    - ""
-    - ""
 branding:
   icon: 'git-commit'
   color: 'green'
