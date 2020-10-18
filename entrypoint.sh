@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/usr/bin/env bash -l
 
 # Combination of:
 # - https://github.com/cpina/github-action-push-to-another-repository
