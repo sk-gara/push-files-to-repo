@@ -1,61 +1,64 @@
-# github-action-push-to-another-repository
+# push-generated-file
 
-Used to push generated files from a directory from Git Action step into another repository on Github.
+A github action. Generate a file in your action then use this action to push it to a folder in another repository. You have to have permssion to push to that repository.
 
-E.g.
-Repository pandoc-test contains Markdown and a Git Action to generate, using Pandoc, an output: HTML, PDF, odt, epub, etc.
-
-Repository pandoc-test-output: contains only the generated files from the first Git Action. Pushed here with github-action-push-to-another-repository
-
-And pandoc-test-output can have Git Pages to give access to the files (or just links to the raw version of the files)
+## Original work
+- Forked from https://github.com/cpina/github-action-push-to-another-repository which, at the time, pushed a generated file to a target repository by deleting the files in the repository at the time.
+- Edits were made based on https://github.com/dmnemec/copy_file_to_another_repo_action which, at the time, pushed a copy of an already existing file to a directory in a target repository.
 
 ## Inputs
-### `source-directory` (argument)
-From the repository that this Git Action is executed the directory that contains the files to be pushed into the repository.
+### `source_file_path`
+Path to your generated file or to multiple files. **Example: `'path/to/file.md'`**. I think it doesn't have to be in a folder. Maybe a file that already exists in your current repo would work too, but I haven't tried that yet.
 
-### `destination-github-username` (argument)
-For the repository `https://github.com/cpina/push-to-another-repository-output` is `cpina`. It's also used for the `Author:` in the generated git messages.
+### `destination_repo`
+Repository to push file to. **Example: `'some_user/some_repo'`**
 
-### `destination-repository-name` (argument)
-For the repository `https://github.com/cpina/push-to-another-repository-output` is `push-to-another-repository-output`
+### `destination_folder`
+Folder to create or use in destination repository. It can be a set of nested folders. **Example: `'.github/workflows'`**
 
-### `user-email` (argument)
-The email that will be used for the commit in the destination-repository-name.
+### `target_branch`
+[Optional] A branch in the destination repository. **Default is "main"**. I think the branch needs to already exist, but I'm not sure.
 
-### `destination-repository-username` (argument) [optional]
-The Username/Organization for the destination repository, if different from `destination-github-username`. For the repository `https://github.com/cpina/push-to-another-repository-output` is `cpina`.
+### `author`
+[Optional] Name of the commit's author. **Default is user name of account doing the pushing**.
 
-### `target-branch` (argument) [optional]
-The branch name for the destination repository, if different from `master`.
+### `author_email`
+[Optional] Email for the commit. **Default is `author@no-reply...`**
 
-### `API_TOKEN_GITHUB` (environment)
-E.g.:
-  `API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}`
+### `token`
+Token/Secret that lets your repo push to a repo on which you have permissions. **Example: ${{ secrets.PUSH_FILE_TOKEN }}`**
 
-Generate your personal token following the steps:
-* Go to the Github Settings (on the right hand side on the profile picture)
-* On the left hand side pane click on "Developer Settings"
-* Click on "Personal Access Tokens" (also available at https://github.com/settings/tokens)
-* Generate a new token, choose "Repo". Copy the token.
+Generate your personal token ([github instructions](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token)):
+1. Go to https://github.com/settings/tokens
+1. Generate a new token
+1. Choose to allow access to "repo"
+1. Copy the token
 
-Then make the token available to the Github Action following the steps:
-* Go to the Github page for the repository that you push from, click on "Settings"
-* On the left hand side pane click on "Secrets"
-* Click on "Add a new secret" and name it "API_TOKEN_GITHUB"
+Make the token available to the Github Action:
+1. Go to the repository you will push from
+1. Tap the 'Settings' tab
+1. Tap 'Secrets' in the column on the left
+1. Tap "Add a new secret"
+1. Give it a name that will help you remember what it's for, like "PUSH_FILE_TOKEN"
 
 ## Example usage
 ```yaml
-      - name: Pushes to another repository
-        uses: cpina/github-action-push-to-another-repository@master
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create output folder and files
+        run:  sh ./generate_files.sh
+      - name: Push files
+        uses: plocket/push-generated-file@master
         with:
-          source-directory: 'output'
-          destination-github-username: 'cpina'
-          destination-repository-name: 'pandoc-test-output'
-          user-email: carles3@pina.cat
+          token: ${{ secrets.PUSH_FILE_TOKEN }}
+          source_file_path: 'output'
+          destination_repo: 'plocket/some-destination-repository'
+          destination_folder: 'folder/in/repository'
+          target_branch: 'feature-branch'
+          author: 'plocket'
+          author_email: 'plocket@example.com'
 ```
-
+<!--
 Working example:
 
 https://github.com/cpina/push-to-another-repository-example/blob/master/.github/workflows/ci.yml
@@ -65,3 +68,4 @@ https://github.com/cpina/push-to-another-repository-example
 
 To:
 https://github.com/cpina/push-to-another-repository-output
+-->
