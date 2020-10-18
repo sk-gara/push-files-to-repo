@@ -58,14 +58,7 @@ Make the token available to the Github Action:
           author: 'plocket'
           author_email: 'plocket@example.com'
 ```
-<!--
-Working example:
 
-https://github.com/cpina/push-to-another-repository-example/blob/master/.github/workflows/ci.yml
+Working example dealing with multiple files and nested folders: https://github.com/plocket/source_repo/blob/main/.github/workflows/push_multiple_files.yml
 
-It generates files from:
-https://github.com/cpina/push-to-another-repository-example
-
-To:
-https://github.com/cpina/push-to-another-repository-output
--->
+Repo it pushes to: https://github.com/plocket/destination_repo
