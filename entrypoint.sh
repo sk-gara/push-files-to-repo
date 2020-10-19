@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -l
 
 # Combination of:
 # - https://github.com/cpina/github-action-push-to-another-repository
@@ -36,9 +36,8 @@ ls -la "$CLONE_DIR"
 
 echo "Copying contents to to git repo"
 # Include dot files for source filepath
-shopt -s dotglob
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER
-cp -r "$INPUT_SOURCE_FILE_PATH"/* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
+cp -r "$INPUT_SOURCE_FILE_PATH"/* $INPUT_SOURCE_FILE_PATH"/*.* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
 cd "$CLONE_DIR"
 ls -la
 
