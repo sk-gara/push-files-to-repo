@@ -41,7 +41,7 @@ Make the token available to the Github Action:
 1. Tap "Add a new secret"
 1. Give it a name that will help you remember what it's for, like "PUSH_FILE_TOKEN"
 
-## Example usage
+## Example usage with one directory to push to
 ```yaml
     steps:
       - uses: actions/checkout@v2
@@ -59,6 +59,44 @@ Make the token available to the Github Action:
           author_email: 'plocket@example.com'
 ```
 
-Working example dealing with multiple files and nested folders: https://github.com/plocket/source_repo/blob/main/.github/workflows/push_multiple_files.yml
+## Example usage with two directories to push to
+If you want to push different files to two different directories in the **same repository**, repeat the above in a new run IN THE SAME JOB.
 
-Repo it pushes to: https://github.com/plocket/destination_repo
+DO NOT try to create separate `job`s for each destination folder you want to push to. Jobs happen at the same time as each other and they will try to push on top of the same commit sometimes. That is, one job will make a push and change the destination repo hash then the next job will try to make a push to the old hash and it will fail. `run`s happen sequentially and that makes sure each push builds on the last one correctly.
+
+```yaml
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create 1st output folder and files
+        run:  sh ./generate_files.sh
+      - name: Push files
+        uses: plocket/push-generated-file@master
+        with:
+          token: ${{ secrets.PUSH_FILE_TOKEN }}
+          source_file_path: 'first_output_directory'
+          destination_repo: 'plocket/some-destination-repository'
+          destination_folder: 'folder/in/repository'
+          target_branch: 'feature-branch'
+          author: 'plocket'
+          author_email: 'plocket@example.com'
+          
+      - name: Create 2nd output folder and files
+        run:  sh ./generate_other_files.sh
+      - name: Push the same or different files
+        uses: plocket/push-generated-file@master
+        with:
+          token: ${{ secrets.PUSH_FILE_TOKEN }}
+          # You need a different output folder so that all the
+          # previous files don't build up in one folder and get
+          # pushed to every destination folder
+          source_file_path: 'second_output_directory'
+          destination_repo: 'plocket/some-destination-repository'
+          destination_folder: 'other/destination_folder'
+          target_branch: 'feature-branch'
+          author: 'plocket'
+          author_email: 'plocket@example.com'
+```
+
+<!-- Working example dealing with multiple files and nested folders: https://github.com/plocket/source_repo/blob/main/.github/workflows/push_multiple_files.yml
+
+Repo it pushes to: https://github.com/plocket/destination_repo -->
