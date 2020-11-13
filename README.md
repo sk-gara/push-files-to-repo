@@ -32,6 +32,7 @@ Generate your personal token ([github instructions](https://docs.github.com/en/f
 1. Go to https://github.com/settings/tokens
 1. Generate a new token
 1. Choose to allow access to "repo"
+1. Choose to allow access to "workflow"
 1. Copy the token
 
 Make the token available to the Github Action:
