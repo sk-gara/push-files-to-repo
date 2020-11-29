@@ -58,5 +58,6 @@ git add .
 git status
 git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 
-echo "Pushing git commit"
-git push origin "$INPUT_TARGET_BRANCH"
+echo "Pushing git commit. Create branch if none exists."
+# --set-upstream also creates the branch if it doesn't already exist in the destination repository
+git push origin --set-upstream "$INPUT_TARGET_BRANCH"
