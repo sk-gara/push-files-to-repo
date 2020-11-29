@@ -56,7 +56,8 @@ ls -la
 echo "Adding git commit"
 git add .
 git status
-git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
+# git diff-index to avoid an error when there are no changes to commit
+git diff-index --quiet HEAD || git commit --message "Update from https://github.com/$GITHUB_REPOSITORY/commit/$GITHUB_SHA"
 
 echo "Pushing git commit"
 git push origin "$INPUT_TARGET_BRANCH"
