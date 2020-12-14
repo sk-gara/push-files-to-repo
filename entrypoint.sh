@@ -31,7 +31,14 @@ echo "Cloning destination git repository"
 # Setup git
 git config --global user.email "$INPUT_AUTHOR_EMAIL"
 git config --global user.name "$INPUT_AUTHOR"
-git clone --single-branch --branch "$INPUT_TARGET_BRANCH" "https://$INPUT_TOKEN@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+# Clone branch matching the target branch name or default branch (master, main, etc)
+{ # try
+  git clone --single-branch --branch "$INPUT_TARGET_BRANCH" "https://$INPUT_TOKEN@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+} || { # on no such remote branch, pull default branch instead
+  echo "The input target branch does not already exist on the target repository. It will be created."
+  git clone --single-branch "https://$INPUT_TOKEN@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+}
+
 ls -la "$CLONE_DIR"
 
 echo "Copying contents to to git repo IF THEY EXIST"
