@@ -22,7 +22,7 @@ then
   INPUT_TARGET_BRANCH="main"
 fi
 
-TARGET_BRANCH_EXISTS = true
+TARGET_BRANCH_EXISTS=true
 
 CLONE_DIR=$(mktemp -d)
 
