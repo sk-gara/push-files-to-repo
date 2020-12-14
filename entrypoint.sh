@@ -22,6 +22,8 @@ then
   INPUT_TARGET_BRANCH="main"
 fi
 
+TARGET_BRANCH_EXISTS = true
+
 CLONE_DIR=$(mktemp -d)
 
 echo "Clean up old references maybe"
@@ -37,11 +39,12 @@ git config --global user.name "$INPUT_AUTHOR"
 } || { # on no such remote branch, pull default branch instead
   echo "The input target branch does not already exist on the target repository. It will be created."
   git clone --single-branch "https://$INPUT_TOKEN@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+  TARGET_BRANCH_EXISTS = false
 }
 
 ls -la "$CLONE_DIR"
 
-echo "Copying contents to to git repo IF THEY EXIST"
+echo "Copying files to git repo. Invisible files must be handled differently than visible files."
 # Include dot files for source filepath
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER
 
@@ -59,6 +62,11 @@ fi
 
 cd "$CLONE_DIR"
 ls -la
+
+# Create branch locally if it doesn't already exist locally
+if [ "$TARGET_BRANCH_EXISTS" = false ] ; then
+  git checkout -b "$INPUT_TARGET_BRANCH"
+fi
 
 echo "Adding git commit"
 git add .
