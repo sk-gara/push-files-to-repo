@@ -39,7 +39,7 @@ git config --global user.name "$INPUT_AUTHOR"
 } || { # on no such remote branch, pull default branch instead
   echo "The input target branch does not already exist on the target repository. It will be created."
   git clone --single-branch "https://$INPUT_TOKEN@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
-  TARGET_BRANCH_EXISTS = false
+  TARGET_BRANCH_EXISTS=false
 }
 
 ls -la "$CLONE_DIR"
