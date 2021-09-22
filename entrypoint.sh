@@ -48,13 +48,29 @@ echo "Copying files to git repo. Invisible files must be handled differently tha
 # Include dot files for source filepath
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER
 
-if test -f "$INPUT_SOURCE_FILE_PATH"/*; then
+files=0
+hidden_files=0
+for file in "$INPUT_SOURCE_FILE_PATH"/.[!.]*; do
+        if [[ -a "$file" ]]; then
+              $hidden_files=1
+              break
+        fi
+done
+
+for file in "$INPUT_SOURCE_FILE_PATH"/*; do
+        if [[ -f "$file" ]]; then
+              $files=1
+              break
+        fi
+done
+
+if [ $files == 1 ] ; then
   cp -r "$INPUT_SOURCE_FILE_PATH"/* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
 else
   echo "WARNING: No visible files exist"
 fi
-invisible_exists=false
-if test -f "$INPUT_SOURCE_FILE_PATH"/.??*; then
+# invisible_exists=false
+if [ $hidden_files == 1 ]; then
   cp -r "$INPUT_SOURCE_FILE_PATH"/.??* "$CLONE_DIR/$INPUT_DESTINATION_FOLDER"
 else
   echo "WARNING: No invisible/hidden (dot) files exist"
