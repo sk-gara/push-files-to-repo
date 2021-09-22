@@ -51,7 +51,7 @@ mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER
 files=0
 hidden_files=0
 for file in "$INPUT_SOURCE_FILE_PATH"/.[!.]*; do
-        if [[ -a "$file" ]]; then
+        if [[ -f "$file" ]]; then
               hidden_files=1
               break
         fi
